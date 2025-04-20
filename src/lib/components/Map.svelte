@@ -82,4 +82,14 @@
     height: 100%;
     width: 100%;
   }
+  
+  /* Fix for zoom control buttons - center the characters */
+  .map-container :global(.leaflet-control-zoom-in),
+  .map-container :global(.leaflet-control-zoom-out) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 26px;
+    text-align: center;
+  }
 </style>
