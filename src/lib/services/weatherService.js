@@ -71,16 +71,44 @@ export function getRadarLayerUrl() {
 /**
  * Get radar layer parameters for Leaflet WMS
  * @param {Number} opacity - Layer opacity (0-1)
+ * @param {Date} [timestamp] - Optional timestamp for historical data
  * @returns {Object} WMS parameters object
  */
-export function getRadarLayerParams(opacity = 0.7) {
-  return {
+export function getRadarLayerParams(opacity = 0.7, timestamp = null) {
+  const params = {
     layers: 'conus_bref_qcd',
     format: 'image/png',
     transparent: true,
     opacity: opacity,
     attribution: 'NOAA/National Weather Service'
   };
+  
+  // Add timestamp if provided
+  if (timestamp) {
+    params.time = timestamp.toISOString();
+  }
+  
+  return params;
+}
+
+/**
+ * Generate timestamps for radar animation frames
+ * @param {Number} frameCount - Number of frames to generate
+ * @param {Number} intervalMinutes - Minutes between frames
+ * @returns {Array<Date>} Array of timestamps
+ */
+export function generateRadarFrameTimestamps(frameCount = 10, intervalMinutes = 5) {
+  const timestamps = [];
+  const now = new Date();
+  
+  // Generate timestamps at regular intervals going backward from now
+  for (let i = 0; i < frameCount; i++) {
+    const timestamp = new Date(now);
+    timestamp.setMinutes(now.getMinutes() - (i * intervalMinutes));
+    timestamps.push(timestamp);
+  }
+  
+  return timestamps;
 }
 
 /**

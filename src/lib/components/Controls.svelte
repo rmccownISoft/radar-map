@@ -7,6 +7,7 @@
   export let showWeather = true;
   export let lastWeatherUpdate = null;
   export let isOffline = false;
+  export let isAnimating = false;
   
   // Dispatch custom events
   const dispatch = createEventDispatcher();
@@ -32,6 +33,12 @@
   // Handle refresh weather
   function refreshWeather() {
     dispatch('refreshWeather');
+  }
+  
+  // Handle animation toggle
+  function toggleAnimation() {
+    isAnimating = !isAnimating;
+    dispatch('animationToggle', { isAnimating });
   }
   
   // Format date for display
@@ -97,6 +104,18 @@
     >
       <span class="icon">🔄</span>
       <span class="label">Refresh</span>
+    </button>
+  </div>
+  
+  <div class="control-group">
+    <button 
+      class="control-button {isAnimating ? 'active' : ''}" 
+      on:click={toggleAnimation}
+      disabled={!showWeather || isOffline}
+      title="{isAnimating ? 'Stop radar animation' : 'Play radar animation'}"
+    >
+      <span class="icon">{isAnimating ? '⏸️' : '▶️'}</span>
+      <span class="label">{isAnimating ? 'Stop Loop' : 'Loop Radar'}</span>
     </button>
   </div>
   

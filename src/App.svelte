@@ -40,6 +40,8 @@
   let map;
   let isOffline = !navigator.onLine;
   let formattedAlerts = [];
+  let isAnimating = false;
+  let weatherOverlayComponent;
   
   // Handle map ready event
   function handleMapReady(event) {
@@ -76,6 +78,13 @@
   // Handle refresh weather
   function handleRefreshWeather() {
     refreshWeather();
+  }
+  
+  // Handle animation toggle
+  function handleAnimationToggle(event) {
+    if (weatherOverlayComponent) {
+      isAnimating = weatherOverlayComponent.toggleAnimation();
+    }
   }
   
   // Handle online/offline status
@@ -136,8 +145,11 @@
         />
         
         <WeatherOverlay 
+          bind:this={weatherOverlayComponent}
           {map} 
           visible={$weatherStatus.radarVisible}
+          on:animationStarted={() => isAnimating = true}
+          on:animationStopped={() => isAnimating = false}
         />
         
         <StormWarnings 
@@ -152,10 +164,12 @@
         showWeather={$weatherStatus.radarVisible}
         lastWeatherUpdate={$weatherStatus.lastUpdate}
         {isOffline}
+        {isAnimating}
         on:trackingToggle={handleTrackingToggle}
         on:followingToggle={handleFollowingToggle}
         on:weatherToggle={handleWeatherToggle}
         on:refreshWeather={handleRefreshWeather}
+        on:animationToggle={handleAnimationToggle}
       />
     </div>
   </div>

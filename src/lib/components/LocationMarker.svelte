@@ -32,6 +32,9 @@
     updateMarker($location.coords, $location.accuracy);
   }
   
+  // State to track if we've done the initial zoom
+  let initialZoomDone = false;
+  
   // Update marker position and accuracy circle
   function updateMarker(position, accuracy) {
     currentPosition = position;
@@ -62,7 +65,14 @@
     
     // Center map on position if followPosition is true
     if (followPosition && map) {
-      map.setView(currentPosition);
+      // If this is the first position update, set a more appropriate zoom level
+      if (!initialZoomDone) {
+        console.log('Setting initial zoom to level 10');
+        map.setView(currentPosition, 10); // Zoom level 10 is good for city/regional view
+        initialZoomDone = true;
+      } else {
+        map.setView(currentPosition);
+      }
     }
     
     // Dispatch position update event

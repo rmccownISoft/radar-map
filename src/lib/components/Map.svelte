@@ -5,7 +5,7 @@
   
   // Props
   export let center = [39.8283, -98.5795]; // Default center of US
-  export let zoom = 5;
+  export let zoom = 5; // Default zoom level, will be overridden by LocationMarker when position is available
   export let mapId = 'map';
   
   // Map instance
