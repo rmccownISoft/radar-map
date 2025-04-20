@@ -162,19 +162,7 @@
 </main>
 
 <style>
-  :global(html, body) {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  :global(body) {
-    display: flex;
-    flex-direction: column;
-  }
-  
+  /* Component-specific styles */
   main {
     flex: 1;
     display: flex;
